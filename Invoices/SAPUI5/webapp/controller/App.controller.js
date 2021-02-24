@@ -1,34 +1,28 @@
-// @ts-nocheck
+//@ts-nocheck
 sap.ui.define([
-"sap/ui/core/mvc/Controller",
-"sap/m/MessageToast",
-"sap/ui/model/json/JSONModel"
+    "sap/ui/core/mvc/Controller",
+    "sap/m/MessageToast",
 ],
+    /**
+     * @param {typeof sap.ui.core.mvc.Controller} Controller
+     * @param {typeof sap.m.MessageToast} MessageToast 
+     */
+    function (Controller, MessageToast) {
+        "use strict";
 
-/**
- * 
- * @param {typeof sap.ui.core.mvc.Controller} Controller 
- * @param {typeof sap.m.MessageToast} MessageToast
- * @param {typeof sap.ui.model.json.JSONModel} JSONModel
- */
-    function (Controller, MessageToast, JSONModel) {
-    
-        return Controller.extend("logaligroup.SAPUI5.controller.App",{
+        return Controller.extend("logaligroup.SAPUI5.controller.App", {
 
-            onInit: function() {
-                var oData = {
-                    recipient : {
-                        name: "World"
-                    }
-                };
-
-                var oModel = new JSONModel(oData);
-                this.getView().setModel(oModel);
+            onInit: function () {
+               
             },
 
-            onShowHello: function() {
-                MessageToast.show("Hello Word");
+            onShowHello: function () {
+                //read text from i18n model
+                var oBundle = this.getView().getModel("i18n").getResourceBundle();
+                // read property from data model
+                var sRecipient = this.getView().getModel().getProperty("/recipient/name");
+                var sMsg = oBundle.getText("helloMsg",[sRecipient]);
+                MessageToast.show(sMsg);
             }
-                   
         });
     });
